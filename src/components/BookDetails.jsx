@@ -1,5 +1,6 @@
 import React from "react";
 import { useLoaderData, useParams } from "react-router-dom";
+import { addToStoredReadList } from "../utility/AddToDB";
 
 const BookDetails = () => {
   const { bookId } = useParams();
@@ -9,7 +10,6 @@ const BookDetails = () => {
 
   const book = data.find((book) => book.bookId === id);
   const {
-    bookId: currentBookId,
     image,
     bookName,
     author,
@@ -21,6 +21,10 @@ const BookDetails = () => {
     totalPages,
     rating,
   } = book;
+
+  const handleMarkAsRead = (id) => {
+    addToStoredReadList(id);
+  };
   return (
     <div className="my-12 grid grid-cols-1 md:grid-cols-2 gap-10">
       <div className="bg-slate-300 flex items-center justify-center rounded-xl">
@@ -64,7 +68,12 @@ const BookDetails = () => {
         </div>
         <br />
         <div className="flex items-center">
-          <button className="btn btn-outline mr-4">Mark as Read</button>
+          <button
+            onClick={() => handleMarkAsRead(bookId)}
+            className="btn btn-outline mr-4"
+          >
+            Mark as Read
+          </button>
           <button className="btn btn-accent">Wish List</button>
         </div>
       </div>
