@@ -5,11 +5,42 @@ const Navbar = () => {
   const links = (
     <>
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive
+              ? "text-green-600 font-bold border border-green-700"
+              : "text-gray-700"
+          }
+        >
+          Home
+        </NavLink>
       </li>
 
       <li>
-        <NavLink to="/listedBooks">Listed Books</NavLink>
+        <NavLink
+          to="/listedBooks"
+          className={({ isActive }) =>
+            isActive
+              ? "text-green-600 font-bold border border-green-700"
+              : "text-gray-700"
+          }
+        >
+          Listed Books
+        </NavLink>
+      </li>
+
+      <li>
+        <NavLink
+          to="/pagesToRead"
+          className={({ isActive }) =>
+            isActive
+              ? "text-green-600 font-bold border border-green-700"
+              : "text-gray-700"
+          }
+        >
+          Pages to Read
+        </NavLink>
       </li>
     </>
   );
@@ -41,13 +72,16 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">Book Vibe</a>
+        <a className="btn btn-ghost text-2xl font-bold" href="/">
+          Book Vibe
+        </a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
-      <div className="navbar-end">
-        <a className="btn">Log In</a>
+      <div className="navbar-end gap-3">
+        <a className="btn rounded-lg bg-green-500 text-white">Sign In</a>
+        <a className="btn rounded-lg bg-cyan-500 text-white">Sign Up</a>
       </div>
     </div>
   );

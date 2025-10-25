@@ -1,6 +1,6 @@
 import React from "react";
 import { useLoaderData, useParams } from "react-router-dom";
-import { addToStoredReadList } from "../utility/AddToDB";
+import { addToStoredReadList, addToStoredWishList } from "../utility/AddToDB";
 
 const BookDetails = () => {
   const { bookId } = useParams();
@@ -25,26 +25,30 @@ const BookDetails = () => {
   const handleMarkAsRead = (id) => {
     addToStoredReadList(id);
   };
+  const handleWishList = (id) => {
+    addToStoredWishList(id);
+  };
   return (
     <div className="my-12 grid grid-cols-1 md:grid-cols-2 gap-10">
       <div className="bg-slate-300 flex items-center justify-center rounded-xl">
         <img className="w-60" src={image} alt={bookName} />
       </div>
       <div className="space-y-2">
-        <h1 className="text-2xl">{bookName}</h1>
+        <h1 className="text-2xl font-bold">{bookName}</h1>
         <p>By: {author}</p>
-        <hr />
+        <hr className="text-gray-400" />
         <div className="">{category}</div>
-        <hr />
+        <hr className="text-gray-400" />
         <div>
           <span className="font-bold ">Review: </span>
           <span className="text-gray-500">{review}</span>
           <br />
         </div>
-        <div>
+        <div className="mb-4 flex items-center gap-8">
+          Tag:
           {tags.map((tag, index) => (
             <span key={index} className="  bg-gray-100 text-green-600 mr-4">
-              {tag}
+              #{tag}
             </span>
           ))}
         </div>
@@ -70,11 +74,16 @@ const BookDetails = () => {
         <div className="flex items-center">
           <button
             onClick={() => handleMarkAsRead(bookId)}
-            className="btn btn-outline mr-4"
+            className="btn btn-outline mr-4 font-bold px-6 py-4"
           >
             Mark as Read
           </button>
-          <button className="btn btn-accent">Wish List</button>
+          <button
+            onClick={() => handleWishList(bookId)}
+            className="btn bg-[#50B1C9]  px-6 py-4 font-bold text-white"
+          >
+            Wish List
+          </button>
         </div>
       </div>
     </div>
