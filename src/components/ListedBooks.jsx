@@ -6,10 +6,11 @@ import { getStoredReadList, getStoredWishList } from "../utility/AddToDB";
 import Book from "./Book";
 
 const ListedBooks = () => {
+  const [Sort, setSort] = useState("");
   const [readList, setReadList] = useState([]);
   const [wishList, setWishList] = useState([]);
   const allBooks = useLoaderData();
-  console.log(allBooks);
+  // console.log(allBooks);
   // ideally we will directly fetch the listed books from database
 
   useEffect(() => {
@@ -19,7 +20,7 @@ const ListedBooks = () => {
     const storedWishList = getStoredWishList();
     const storedWishListInt = storedWishList.map((id) => parseInt(id));
 
-    console.log(storedReadList, storedReadListInt, allBooks);
+    // console.log(storedReadList, storedReadListInt, allBooks);
 
     const readBookList = allBooks.filter((book) =>
       storedReadListInt.includes(book.bookId)
@@ -32,9 +33,56 @@ const ListedBooks = () => {
     setWishList(wishBookList);
   }, []);
 
+  const handleSort = (event, sortType) => {
+    event.preventDefault();
+    setSort(sortType);
+
+    const sortedReadList = [...readList].sort((a, b) => {
+      if (sortType === "Ratings") {
+        return b.rating - a.rating;
+      } else if (sortType === "Number of pages") {
+        return b.totalPages - a.totalPages;
+      } else if (sortType === "Publisher year") {
+        return b.yearOfPublishing - a.yearOfPublishing;
+      }
+      return "";
+    });
+    setReadList(sortedReadList);
+
+    const sortedWishList = [...wishList].sort((a, b) => {
+      if (sortType === "Ratings") {
+        return b.rating - a.rating;
+      } else if (sortType === "Number of pages") {
+        return b.totalPages - a.totalPages;
+      } else if (sortType === "Publisher year") {
+        return b.yearOfPublishing - a.yearOfPublishing;
+      }
+      return "";
+    });
+    setWishList(sortedWishList);
+  };
+
   return (
-    <div>
-      <h3 className="text-3xl my-10">Listed books</h3>
+    <div className="flex flex-col">
+      <div className="my-10 flex h-16 rounded-lg items-center bg-gray-200 w-[100%]">
+        <h3 className="text-3xl mx-auto  font-bold ">Books</h3>
+      </div>
+
+      <details className="dropdown mx-auto mb-4">
+        <summary className="btn  bg-green-600 text-white border-0 hover:bg-green-800 ">
+          {Sort ? Sort : "Sort by ⬇️"}
+        </summary>
+        <ul className="menu dropdown-content bg-base-300 rounded-box z-1 w-52 p-2 shadow-sm">
+          <li onClick={(e) => handleSort(e, "Ratings")}>Ratings</li>
+          <li onClick={(e) => handleSort(e, "Number of pages")}>
+            Number of pages
+          </li>
+          <li onClick={(e) => handleSort(e, "Publisher year")}>
+            Publisher year
+          </li>
+        </ul>
+      </details>
+
       <Tabs>
         <TabList>
           <Tab>Read List</Tab>
